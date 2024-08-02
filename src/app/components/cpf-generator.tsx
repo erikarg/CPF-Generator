@@ -81,7 +81,7 @@ const CPFGenerator: React.FC = () => {
             value={isFormatted ? formatCPF(cpf) : cpf}
             readOnly
             style={{
-              fontSize: "1.3rem",
+              fontSize: isMobile ? "1.15rem" : "1.3rem",
               padding: "0.5rem",
               borderRadius: "0.5rem",
               textAlign: "center",
@@ -97,11 +97,18 @@ const CPFGenerator: React.FC = () => {
           >
             <button
               onClick={() => setCpf(generateCPF())}
-              style={{ width: 40, height: 40 }}
+              style={{
+                width: 40,
+                height: 40,
+                border: "1px solid gray",
+              }}
             >
               <Image src={sync} alt="Gerar" width={30} height={30} />
             </button>
-            <button onClick={copyToClipboard} style={{ width: 40, height: 40 }}>
+            <button
+              onClick={copyToClipboard}
+              style={{ width: 40, height: 40, border: "1px solid gray" }}
+            >
               <Image src={copy} alt="Copiar" width={30} height={30} />
             </button>
           </div>
