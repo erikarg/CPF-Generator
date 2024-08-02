@@ -21,7 +21,7 @@ export default function Home() {
           <h2>
             Portfolio <span>-&gt;</span>
           </h2>
-          <p>My main website.</p>
+          <p>Visite meu site.</p>
         </a>
         <br />
         <a
@@ -31,9 +31,9 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2>
-            Projects <span>-&gt;</span>
+            Projetos <span>-&gt;</span>
           </h2>
-          <p>Find more in my github.</p>
+          <p>Encontre mais no GitHub.</p>
         </a>
       </div>
     </main>

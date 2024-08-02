@@ -129,7 +129,7 @@ const CPFGenerator: React.FC = () => {
           <span className="alert-icon">
             <i className="ni ni-like-2"></i>
           </span>
-          <strong>Copied to clipboard!</strong>
+          <strong>Copiado para a área de transferência!</strong>
         </Alert>
       )}
     </div>
