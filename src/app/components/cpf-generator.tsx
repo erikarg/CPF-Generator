@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert } from "reactstrap";
 import copy from "../../../public/copy.svg";
 import sync from "../../../public/sync.svg";
@@ -34,6 +34,18 @@ const CPFGenerator: React.FC = () => {
   const [cpf, setCpf] = useState<string>(generateCPF());
   const [isFormatted, setIsFormatted] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const copyToClipboard = () => {
     const cpfToCopy = isFormatted ? formatCPF(cpf) : cpf;
@@ -48,88 +60,75 @@ const CPFGenerator: React.FC = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
           alignItems: "center",
-          marginBottom: "1rem",
+          padding: "1rem",
+          marginTop: isMobile ? "2rem" : "0",
+          gap: isMobile ? "1rem" : "0",
         }}
       >
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
+            display: isMobile ? "flex" : "inline-flex",
             alignItems: "center",
-            padding: "1rem",
-            marginRight: "1rem",
+            marginBottom: "1rem",
+            gap: "2rem",
+            flexDirection: isMobile ? "column" : "row",
           }}
         >
-          <div
+          <input
+            type="text"
+            value={isFormatted ? formatCPF(cpf) : cpf}
+            readOnly
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              marginBottom: "1rem",
-              gap: "2rem",
-            }}
-          >
-            <input
-              type="text"
-              value={isFormatted ? formatCPF(cpf) : cpf}
-              readOnly
-              style={{
-                fontSize: "1.3rem",
-                padding: "0.5rem",
-                borderRadius: "0.5rem",
-                textAlign: "center",
-                width: "250px",
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: "1rem",
-              }}
-            >
-              <button
-                onClick={() => setCpf(generateCPF())}
-                style={{ width: 40, height: 40 }}
-              >
-                <Image src={sync} alt="Gerar" width={30} height={30} />
-              </button>
-              <button
-                onClick={copyToClipboard}
-                style={{ width: 40, height: 40 }}
-              >
-                <Image src={copy} alt="Copiar" width={30} height={30} />
-              </button>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              marginBottom: "1rem",
+              fontSize: "1.3rem",
               padding: "0.5rem",
+              borderRadius: "0.5rem",
+              textAlign: "center",
+              width: isMobile ? "230px" : "250px",
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
             }}
           >
-            <input
-              type="checkbox"
-              checked={isFormatted}
-              onChange={() => setIsFormatted(!isFormatted)}
-              style={{
-                width: "80px",
-                height: "40px",
-              }}
-            />
-            <label style={{ marginLeft: "-3rem" }}>Com pontuação</label>
+            <button
+              onClick={() => setCpf(generateCPF())}
+              style={{ width: 40, height: 40 }}
+            >
+              <Image src={sync} alt="Gerar" width={30} height={30} />
+            </button>
+            <button onClick={copyToClipboard} style={{ width: 40, height: 40 }}>
+              <Image src={copy} alt="Copiar" width={30} height={30} />
+            </button>
           </div>
+        </div>
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            marginBottom: "1rem",
+            padding: "0.5rem",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={isFormatted}
+            onChange={() => setIsFormatted(!isFormatted)}
+            style={{
+              width: "30px",
+              height: "15px",
+            }}
+          />
+          <label style={{ marginLeft: "0.2rem" }}>Com pontuação</label>
         </div>
       </div>
       {showAlert && (
-        <Alert color="success" style={{ marginBottom: "1rem" }}>
-          <span className="alert-icon">
-            <i className="ni ni-like-2"></i>
-          </span>
-          <strong>Copiado para a área de transferência!</strong>
+        <Alert color="success" style={{ color: "green" }}>
+          <strong>Copiado!</strong>
         </Alert>
       )}
     </div>
